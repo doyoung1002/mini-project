@@ -1,0 +1,20 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+    ul,
+    ol {
+      list-style: none;
+    }
+  
+    p,
+    a {
+      text-decoration: none;
+    }
+  
+    body {
+      font-size: 14px;
+      font-family: 'Nanum-Gothic','Roboto',sans-serif;
+      color:#ff0090;
+    }
