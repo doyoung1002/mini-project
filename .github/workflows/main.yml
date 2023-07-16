@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ["feature/mjm1"]
   pull_request:
-    branches: ["main"]
+    branches: ["feature/mjm1"]
 
 jobs:
   build:
@@ -37,11 +37,11 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./CI.zip s3://mjmbucket1/tqtq/
+        run: aws s3 cp --region ap-northeast-2 ./CI.zip s3://mjmbucket1/CICD/
 
       - name: deploy with AWS codeDeploy
         run: aws deploy create-deployment
           --application-name CICDTEST1
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name CICDTEST1-group
-          --s3-location bucket=mjmbucket1,bundleType=zip,key=tqtq/CI.zip
+          --s3-location bucket=mjmbucket1,bundleType=zip,key=CICD/CI.zip
