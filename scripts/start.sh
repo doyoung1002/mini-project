@@ -1,5 +1,5 @@
 #!/bin/bash
-REPOSITORY=/home/ubuntu/CI-CD-TEST
+REPOSITORY=/home/ubuntu/mini-project
 
 cd $REPOSITORY
 
