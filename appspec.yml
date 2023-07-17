@@ -16,10 +16,11 @@ permissions:
 hooks:
   BeforeInstall:
     - location: scripts/stop.sh
+      timeout: 30
       runas: ubuntu
   AfterInstall:
     - location: scripts/start.sh
-      timeout: 300
+      timeout: 30
       runas: ubuntu
 
 # version: 0.0
