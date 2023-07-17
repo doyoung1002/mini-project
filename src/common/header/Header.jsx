@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
 const Headerwrap = styled.div`
   width: 1440px;
   height: 30%;
@@ -21,7 +22,7 @@ const Headerwrap = styled.div`
     height: 10vh;
   }
   .headerWrap > .navi > .logos {
-    width: 851px;
+    width: 840px;
     height: 100%;
   }
   .logos > .logoImg {
@@ -38,13 +39,13 @@ const Headerwrap = styled.div`
     object-fit: cover;
   }
   .navis {
-    width: 589px;
+    width: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .membersNavi {
-    width: 370px;
+    width: 400px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -62,7 +63,6 @@ const Headerwrap = styled.div`
   .members > a {
     width: 80px;
     color: #ff0090;
-    text-decoration: none;
   }
   .members .nickname {
     width: 100%;
@@ -85,6 +85,13 @@ const Headerwrap = styled.div`
     font-size: 20px;
     font-weight: 800;
   }
+  .members .products {
+    width: 80px;
+    height: auto;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+  }
   .banner {
     background: #ff0090;
     width: 100%;
@@ -92,7 +99,6 @@ const Headerwrap = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
   }
   .banner > h3 {
     font-size: 40px;
@@ -100,7 +106,7 @@ const Headerwrap = styled.div`
     text-align: center;
   }
   .search {
-    width: 219px;
+    width: 200px;
     height: 40px;
     position: relative;
   }
@@ -131,38 +137,45 @@ const Headers = () => {
   };
   return (
     <Headerwrap>
-      <div className="headerWrap">
-        <div className="navi">
-          <div className="logos">
-            <div className="logoImg">
-              <Link to="/">
-                <img src="/img/OHS-5.png" alt="/main" />
+      <div className='headerWrap'>
+        <div className='navi'>
+          <div className='logos'>
+            <div className='logoImg'>
+              <Link to='/'>
+                <img src='/img/OHS-5.png' alt='/main' />
               </Link>
             </div>
           </div>
-          <div className="navis">
-            <ul className="membersNavi">
-              <div className="members">
-                <Link to="/mypage">
-                  <li className="nickname">어드민님</li>
+          <div className='navis'>
+            <ul className='membersNavi'>
+              <div className='members'>
+                <Link to='/mypage'>
+                  <li className='nickname'>어드민님</li>
                 </Link>
-                <Link to="/login">
-                  <li className="login">로그인</li>
+                <Link to='/login'>
+                  <li className='login'>로그인</li>
                 </Link>
-                <Link to="/signUp">
-                  <li className="signUp">회원가입</li>
+                <Link to='/signUp'>
+                  <li className='signUp'>회원가입</li>
+                </Link>
+                <Link to='/products'>
+                  <li className='products'>상품등록</li>
                 </Link>
               </div>
             </ul>
-            <div className="search">
-              <input type="text" placeholder="search in site" className="inputs" />
+            <div className='search'>
+              <input
+                type='text'
+                placeholder='search in site'
+                className='inputs'
+              />
               <button onClick={searchItem}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </button>
             </div>
           </div>
         </div>
-        <div className="banner">
+        <div className='banner'>
           <h3>Oh! Honey Scrooge </h3>
         </div>
       </div>
