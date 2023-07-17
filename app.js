@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
-    res.send("이게 왜 됨?");
+    res.send("이게 왜 될까?");
 });
 
 app.use('/api', indexRouter);
