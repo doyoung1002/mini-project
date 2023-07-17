@@ -17,7 +17,7 @@ app.use(
 );
 
 app.get('/', (req, res) => {
-    res.send("이게 왜 될까? CICD 되냐?");
+    res.send("이게 왜 될까?");
 });
 
 app.use('/api', indexRouter);
