@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 const Headerwrap = styled.div`
   width: 1440px;
-  height: 30vh;
+  height: 30%;
   margin: 0 auto;
   .headerWrap {
     width: 100%;
@@ -62,6 +62,7 @@ const Headerwrap = styled.div`
   .members > a {
     width: 80px;
     color: #ff0090;
+    text-decoration: none;
   }
   .members .nickname {
     width: 100%;
@@ -91,6 +92,7 @@ const Headerwrap = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
   }
   .banner > h3 {
     font-size: 40px;
@@ -103,7 +105,8 @@ const Headerwrap = styled.div`
     position: relative;
   }
   .search > .inputs {
-    height: 100%;
+    width: 100%;
+    height: 42px;
     font-size: 17px;
     color: #000000;
     white-space: nowrap;

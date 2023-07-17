@@ -1,14 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
-
 const Footer = styled.div`
   width: 1440px;
-  height: 10vh;
+  height: 10%;
   margin: auto;
   margin-top: 3vh;
-  bottom: 0px;
-
   .footerNavi {
     width: 635px;
     height: 100%;
@@ -16,9 +13,7 @@ const Footer = styled.div`
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
-    bottom: 0;
   }
-
   .footerNavi > a {
     width: 25%;
     color: #ff0090;
