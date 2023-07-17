@@ -7,6 +7,15 @@ const PORT = 3024;
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(
+    cors({
+        // process.env 적용이 잘 안되어서 오류 발생
+        origin: '*',
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+        credentials: true,
+    })
+);
+
 app.get('/', (req, res) => {
     res.send("이게 왜 될까?");
 });
