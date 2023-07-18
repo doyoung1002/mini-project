@@ -7,7 +7,7 @@ const { signup_errorhandling, login_errorhandling } = require('../middlewares/au
 
 const { Users } = require("../models");
 
-// 회원가입
+// 회원가입 API
 router.post("/signup", async (req, res) => {
     const { nickname, password, confirm } = req.body;
     const { error } = signup_errorhandling.validate({ nickname, password, confirm });
@@ -31,7 +31,7 @@ router.post("/signup", async (req, res) => {
     }
 });
 
-// 로그인
+// 로그인 API
 router.post("/login", async (req, res) => {
     const { nickname, password } = req.body;
     const { error } = login_errorhandling.validate({ nickname, password });
@@ -50,12 +50,9 @@ router.post("/login", async (req, res) => {
         };
 
         // JWT 생성
-        const token = jwt.sign(
-            { userId: user.userId, nickname: user.nickname },
-            process.env.PRIVATE_KEY
-        );
+        const token = jwt.sign({ userId: user.userId }, process.env.PRIVATE_KEY);
 
-        res.cookie("authorization", "Bearer " + token);
+        res.cookie("authorization", `Bearer ${token}`);
         res.status(200).json({ token });
     } catch (err) {
         console.error(err);
