@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const indexRouter = require("./routes/index.route");
 const app = express();
 const cors = require("cors");
+const morgan = require("morgan");
 const PORT = 3024;
 
 app.use(express.json());
@@ -15,6 +16,8 @@ app.use(
         credentials: true,
     })
 );
+
+app.use(morgan('dev'));
 
 app.get('/', (req, res) => {
     res.send("이게 왜 될까???");
