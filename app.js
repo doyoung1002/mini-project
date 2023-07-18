@@ -1,14 +1,27 @@
 const express = require("express");
-const cookieParser = require("cookie-parser");
-const indexRouter = require("./routes/index.route");
 const app = express();
-const PORT = 3024;
+
+const dotenv = require('dotenv');
+dotenv.config();
+
+const PORT = process.env.PORT_NUMBER;
+const cookieParser = require("cookie-parser");
+
+const cors = require('cors');
+
+let corsoptions = {
+    origin: '*',
+    credential: true,
+};
+
+const indexRouter = require("./routes/index.route.js");
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors(corsoptions));
 
 app.get('/', (req, res) => {
-    res.send("이게 왜 됨?");
+    res.send("미니프로젝트 메인페이지입니다.");
 });
 
 app.use('/api', indexRouter);
