@@ -35,7 +35,35 @@ const login_errorhandling = Joi.object({
     })
 });
 
+const comment_errorhandling = Joi.object({
+    comment: Joi.string().required().messages({
+        "string.empty": "내용을 입력해주세요.",
+        "any.required": "데이터 형식이 올바르지 않습니다."
+    })
+});
+
+const item_errorhandling = Joi.object({
+    itemName: Joi.string().required().messages({
+        "string.empty": "상품 이름을 입력해주세요.",
+        "any.required": "데이터 형식이 올바르지 않습니다."
+    }),
+    explanation: Joi.string().required().messages({
+        "string.empty": "상품 설명을 입력해주세요.",
+        "any.required": "데이터 형식이 올바르지 않습니다."
+    }),
+    price: Joi.string().required().messages({
+        "string.empty": "가격을 입력해주세요.",
+        "any.required": "데이터 형식이 올바르지 않습니다."
+    }),
+    imageUrl: Joi.string().required().messages({
+        // "string.empty": "이미지을 입력해주세요.",
+        "any.required": "데이터 형식이 올바르지 않습니다."
+    })
+});
+
 module.exports = {
     signup_errorhandling,
-    login_errorhandling
+    login_errorhandling,
+    comment_errorhandling,
+    item_errorhandling
 };

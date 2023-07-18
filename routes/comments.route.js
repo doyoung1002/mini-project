@@ -4,9 +4,10 @@ const router = express.Router();
 const sequelize = require("sequelize")
 
 const authMiddleware = require("../middlewares/auth-middleware");
+const { comment_errorhandling } = require('../middlewares/auth.errorhandling');
 const { Users, Items, Comments } = require("../models");
 
-//? 댓글 조회 
+// 댓글 조회 API
 router.get("/:itemId/comments", async (req, res) => {
     const { itemId } = req.params;
 
@@ -36,15 +37,16 @@ router.get("/:itemId/comments", async (req, res) => {
     };
 });
 
-//? 댓글 생성
+// 댓글 생성 API
 router.post("/:itemId/comments", authMiddleware, async (req, res) => {
     const { itemId } = req.params;
     const { userId } = res.locals.user;
+    const { comment } = req.body;
+
+    const { error } = comment_errorhandling.validate({ comment });
 
     try {
-        //! body에 문제가 있을 때
-        const { comment } = req.body;
-        if (Object.keys(req.body).length === 0) return res.status(412).json({ message: "데이터 형식이 올바르지 않습니다" });
+        if (error) return res.status(400).json({ errorMessage: error.details[0].message });
 
         //! 상품을 못 찾을 때 에러
         const items = await Items.findOne({ where: { itemId } })
@@ -63,33 +65,31 @@ router.post("/:itemId/comments", authMiddleware, async (req, res) => {
     };
 });
 
-//? 댓글 수정
+// 댓글 수정 API
 router.put("/:itemId/comments/:commentId", authMiddleware, async (req, res) => {
     const { itemId, commentId } = req.params;
-    const { comment } = req.body;
     const { userId } = res.locals.user;
+    const { comment } = req.body;
+
+    const { error } = comment_errorhandling.validate({ comment });
 
     try {
-        //! body에 문제가 있을 때
-        if (Object.keys(req.body).length === 0) return res.status(412).json({ errorMessage: "데이터 형식이 올바르지 않습니다." });
+        if (error) return res.status(400).json({ errorMessage: error.details[0].message });
 
-        //! 게시물 못 찾을 때 에러
+        //! 게시물 못 찾을 때
         const item = await Items.findOne({ where: { itemId } })
         if (!item) return res.status(404).json({ errorMessage: "상품이 존재하지 않습니다." });
 
-        //! 댓글을 못 찾을 때 에러
+        //! 댓글을 못 찾을 때
         const comments = await Comments.findOne({ where: { commentId: commentId } })
         if (!comments) return res.status(404).json({ errorMessage: "댓글이 존재하지 않습니다." });
 
         //! 권한이 없을 때 (토큰의 닉네임 활용)
         if (comments.UserId !== userId) return res.status(403).json({ errorMessage: "댓글의 수정 권한이 존재하지 않습니다." });
 
-        const updateCommentStatus = await Comments.update(
-            { comment },
-            { where: { commentId } }
-        );
+        //! acknowledged 정상적 처리 확인
+        const updateCommentStatus = await Comments.update({ comment }, { where: { commentId } });
 
-        //! acknowledged 정상적 처리 확인 
         if (updateCommentStatus) {
             return res.status(200).json({ message: "댓글을 수정하였습니다" }); // 상태코드 수정 201 -> 204
         } else {
@@ -102,26 +102,26 @@ router.put("/:itemId/comments/:commentId", authMiddleware, async (req, res) => {
     };
 });
 
-//? 댓글 삭제
+// 댓글 삭제 API
 router.delete("/:itemId/comments/:commentId", authMiddleware, async (req, res) => {
-    try {
-        const { itemId, commentId } = req.params;
-        const { userId } = res.locals.user;
+    const { itemId, commentId } = req.params;
+    const { userId } = res.locals.user;
 
-        //! 게시물 못 찾을 때 에러
+    try {
+        //! 게시물 못 찾을 때
         const item = await Items.findOne({ where: { itemId } })
         if (!item) return res.status(404).json({ errorMessage: "상품이 존재하지 않습니다." });
 
-        //! 댓글을 못 찾을 때 에러
+        //! 댓글을 못 찾을 때
         const comment = await Comments.findOne({ where: { commentId } })
         if (!comment) return res.status(404).json({ errorMessage: "댓글이 존재하지 않습니다." });
 
         //! 권한이 없을 때 (토큰의 닉네임 활용)
         if (comment.UserId !== userId) return res.status(403).json({ errorMessage: "댓글의 삭제 권한이 존재하지 않습니다." });
 
+        //! acknowledged 정상적 처리 확인 
         const deleteCommentStatus = await Comments.destroy({ where: { commentId } });
 
-        //! acknowledged 정상적 처리 확인 
         if (deleteCommentStatus) {
             return res.status(200).json({ message: "댓글을 삭제하였습니다" }); // 상태코드 수정 201 -> 204
         } else {
