@@ -1,118 +1,132 @@
-import React from "react";
-// import React, {useState, useCallback} from "react";
-// import axios from "axios";
 import { DetailComment } from "./style";
-// import { useMutation, apiSlice } from "../../api/commentsApiSlice";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const CommentForm = ({ onConfirm }) => {
-  // const [nickname, setNickname] = useState("");
-  // const [comment, setComment] = useState("");
-  // const [password, setPassword] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [comment, setComment] = useState("");
+  const [password, setPassword] = useState("");
+  const [comments, setComments] = useState([]);
+  const [confirm, setConfirm] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // const handleNicknameChange = (event) => {
-  //   setNickname(event.target.value);
-  // };
+  const { itemId } = useParams();
 
-  // const handleCommentChange = (event) => {
-  //   setComment(event.target.value);
-  // };
+  useEffect(() => {
+    fetchComments();
+  }, [itemId]);
 
-  // const handlePasswordChange = (event) => {
-  //   setPassword(event.target.value);
-  // };
+  const fetchComments = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://honeyitem.shop/api/items/${itemId}/comments`
+      );
+      setLoading(false);
+      setComments(response.data.comments);
+      console.log(response.data.comments);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
 
-  // const handleButtonClick = async () => {
-  //   if (!nickname || !comment || !password) {
-  //     alert("닉네임과 비밀번호 댓글을 모두 입력해주세요.");
-  //     return;
-  //   }
+  const handleNicknameChange = (event) => {
+    if (event.target.value.trim().length > 15) {
+      return;
+    }
+    setNickname(event.target.value);
+  };
 
-  //   try {
-  //     const response = await axios.post("your-server-url/comments", {
-  //       user: nickname,
-  //       pw: password,
-  //       content: comment,
-  //       date: new Date().toISOString(),
-  //     });
+  const handleCommentChange = (event) => {
+    if (event.target.value.trim().length > 50) {
+      return;
+    }
+    setComment(event.target.value);
+  };
 
-  //     if (response.status === 200) {
-  //       onConfirm(response.data);
-  //       setNickname("");
-  //       setPassword("");
-  //       setComment("");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  // ------------------------------------리액트 쿼리 ------------------------------------
-  // const CommentForm = () => {
-  //   const [postComment, { isLoading }] = useMutation(apiSlice.endpoints.postComment);
+  const handlePasswordChange = (event) => {
+    if (event.target.value.trim().length > 15) {
+      return;
+    }
+    setPassword(event.target.value);
+  };
 
-  //   const [nickname, setNickname] = React.useState("");
-  //   const [password, setPassword] = React.useState("");
-  //   const [comment, setComment] = React.useState("");
+  const handlePasswordConfirm = (event) => {
+    if (event.target.value.trim().length > 15) {
+      return;
+    }
+    setConfirm(event.target.value);
+  };
 
-  //   const handleButtonClick = () => {
-  //     if (!nickname || !password || !comment) {
-  //       alert("닉네임과 비밀번호 댓글을 모두 입력해주세요.");
-  //       return;
-  //     }
+  const handleButtonClick = async () => {
+    if (!nickname || !comment || !password || !confirm) {
+      alert("닉네임과 비밀번호 댓글을 모두 입력해주세요.");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        `https://honeyitem.shop/api/items/${itemId}/comments`,
+        {
+          nickname: nickname,
+          comment: comment,
+          password: password,
+          confirm: confirm,
+        }
+      );
 
-  //     postComment({ nickname, password, comment })
-  //       .unwrap()
-  //       .then((payload) => {
-  //         setNickname("");
-  //         setPassword("");
-  //         setComment("");
-  //       })
-  //       .catch((error) => console.error(error));
-  //   };
+      if (response.status === 200) {
+        await fetchComments();
+        onConfirm(response.data);
+        setNickname("");
+        setPassword("");
+        setComment("");
+        setConfirm("");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <DetailComment>
-      {/* <input
-        id="nickName-input"
-        placeholder="닉네임을 입력하세요"
+      <input
+        id='nickName-input'
+        placeholder='닉네임'
         value={nickname}
-        onChange={(e) => {
-          if (e.target.value.trim().length > 11) {
-            return;
-          }
-          setNickname(e.target.value);
-        }}
+        onChange={handleNicknameChange}
       />
       <input
-        id="password-input"
-        placeholder="비밀번호를 입력하세요"
-        value={password}
-        onChange={(e) => {
-          if (e.target.value.trim().length > 15) {
-            return;
-          }
-          setPassword(e.target.value);
-        }}
-      />
-      <input
-        id="comment-input"
-        placeholder="댓글을 입력하세요"
+        id='comment-input'
+        placeholder='댓글을 입력하세요'
         value={comment}
+        onChange={handleCommentChange}
+      />
+      <input
+        id='password-input'
+        placeholder='비밀번호'
+        type='password'
+        value={password}
+        onChange={handlePasswordChange}
+      />
 
-        // 글자수 제한
-        onChange={(e) => {
-          if (e.target.value.trim().length > 50) {
-            return;
-          }
-          setComment(e.target.value);
-        }}
-      /> */}
+      <input
+        id='password-Confirm-input'
+        placeholder='비밀번호 확인'
+        type='password'
+        value={confirm} // 수정
+        onChange={handlePasswordConfirm}
+      />
 
-      <input id="nickName-input" placeholder="닉네임" />
-      <input id="password-input" type="password" placeholder="비밀번호" />
-      <input id="comment-input" placeholder="댓글을 입력하세요" />
+      <button onClick={handleButtonClick}>확인</button>
 
-      <button onClick={onConfirm}>확인</button>
-      {/* <button onClick={handleButtonClick} disabled={isLoading}>확인</button> */}
+      {/* Comment List */}
+      {comments.map((comment) => (
+        <div key={comment.commentId}>
+          <p>Nickname: {comment.nickname}</p>
+          <p>Comment: {comment.comment}</p>
+        </div>
+      ))}
     </DetailComment>
   );
 };

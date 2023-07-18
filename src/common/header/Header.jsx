@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 const Headerwrap = styled.div`
   width: 1440px;
@@ -64,22 +66,8 @@ const Headerwrap = styled.div`
     width: 80px;
     color: #ff0090;
   }
-  .members .nickname {
+  .members .visit {
     width: 100%;
-    height: auto;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 800;
-  }
-  .members .login {
-    width: 80px;
-    height: auto;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 800;
-  }
-  .members .signUp {
-    width: 80px;
     height: auto;
     text-align: center;
     font-size: 20px;
@@ -135,6 +123,12 @@ const Headers = () => {
   const searchItem = () => {
     alert("검색되었습니다.");
   };
+  const fetchProducts = async () => {
+    const { data } = await axios.get("https://honeyitem.shop/api/items");
+    // console.log("data=", data.data);
+    return data.data;
+  };
+  const { data, isLoading, isError } = useQuery("products", fetchProducts);
   return (
     <Headerwrap>
       <div className='headerWrap'>
@@ -149,30 +143,11 @@ const Headers = () => {
           <div className='navis'>
             <ul className='membersNavi'>
               <div className='members'>
-                <Link to='/mypage'>
-                  <li className='nickname'>어드민님</li>
-                </Link>
-                <Link to='/login'>
-                  <li className='login'>로그인</li>
-                </Link>
-                <Link to='/signUp'>
-                  <li className='signUp'>회원가입</li>
-                </Link>
-                <Link to='/products'>
-                  <li className='products'>상품등록</li>
-                </Link>
+                <li className='visit'>
+                  오! 허니 스크루지에 오신 것을 환영합니다
+                </li>
               </div>
             </ul>
-            <div className='search'>
-              <input
-                type='text'
-                placeholder='search in site'
-                className='inputs'
-              />
-              <button onClick={searchItem}>
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </button>
-            </div>
           </div>
         </div>
         <div className='banner'>

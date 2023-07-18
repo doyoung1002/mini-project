@@ -1,8 +1,9 @@
+import { useQuery } from "react-query";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Product from "./product";
+
 const Mains = styled.div`
   width: 1440px;
   height: 60%;
@@ -72,58 +73,84 @@ const Mains = styled.div`
     height: 28px;
   }
 `;
+const fetchProducts = async () => {
+  const { data } = await axios.get("https://honeyitem.shop/api/items");
+  // console.log("data=", data.data);
+  return data.data;
+};
+
 const Main = () => {
-  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-  const detailpage = () => {
-    navigate("/detail");
+  const detailpage = (id) => {
+    navigate(`/detail/${id}`);
+    // console.log(id);
   };
-  useEffect(() => {
-    axios
-      .get("http://localhost:4000/Products")
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
-  }, []);
+
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+
+  const onFileChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
+
+  const { data, isLoading, isError } = useQuery("products", fetchProducts);
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (isError) {
+    return <h1>Error...</h1>;
+  }
 
   return (
-    <Mains>
-      <div className='cardsWrap'>
-        <div className='cardsBanner'>
-          <h3>꿀템게시판</h3>
+    <>
+      <Mains>
+        <div className='cardsWrap'>
+          <div className='cardsBanner'>
+            <h3>꿀템게시판</h3>
+          </div>
+          <div className='cardsListWrap'>
+            {data &&
+              Array(4)
+                .fill()
+                .map((_, i) => (
+                  <div className='cardsList' key={i}>
+                    <div className='cards'>
+                      {Array(3)
+                        .fill()
+                        .map((_, j) => {
+                          const product = data[i * 3 + j];
+                          return product ? (
+                            <div
+                              className='card'
+                              key={product.itemId}
+                              onClick={() => detailpage(product.itemId)}>
+                              <img src={product.imageUrl} alt='no image' />
+                              <div className='cardDetail'>
+                                <h5 className='productName'>
+                                  {product.itemName}
+                                </h5>
+                                {/* <h5 className='price'>{product.price}</h5> */}
+                              </div>
+                            </div>
+                          ) : null;
+                        })}
+                    </div>
+                  </div>
+                ))}
+          </div>
         </div>
-        <div className='cardsListWrap'>
-          {Array(4)
-            .fill()
-            .map((_, i) => (
-              <div className='cardsList' key={i}>
-                <div className='cards'>
-                  {Array(3)
-                    .fill()
-                    .map((_, j) => {
-                      const product = products[i * 3 + j];
-                      return product ? (
-                        <div
-                          className='card'
-                          key={product.id}
-                          onClick={detailpage}>
-                          <img src={product.img} alt='no image' />
-                          <div className='cardDetail'>
-                            <h5 className='productName'>{product.title}</h5>
-                            <h5 className='price'>{product.price}</h5>
-                          </div>
-                        </div>
-                      ) : null;
-                    })}
-                </div>
-              </div>
-            ))}
-        </div>
-      </div>
-    </Mains>
+      </Mains>
+    </>
   );
 };
 
