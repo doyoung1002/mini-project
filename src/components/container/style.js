@@ -1,9 +1,8 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-height: 1000px;
-
-`
+  height: 60%;
+`;
 
 export const DetailContainer = styled.div`
   background-color: white;
@@ -23,9 +22,7 @@ export const DetailContainer = styled.div`
 //   box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.4)
 // `;
 
-export const TitleDiv = styled.div`
-
-`
+export const TitleDiv = styled.div``;
 
 // export const DetailTitle = styled.div`
 //   margin: auto;
@@ -45,26 +42,24 @@ export const TitleDiv = styled.div`
 // `
 
 export const ImgDiv = styled.div`
+  width: 1000px;
+  height: 500px;
+  display: flex;
+  margin: auto;
+  margin-top: 3vh;
+  /* 그림자 설정 */
 
-width: 1000px;
-height: 500px;
-display: flex;
-margin: auto;
-margin-top: 3vh;
- /* 그림자 설정 */
+  /* 그림자 색상과 강도, 위치 등을 필요에 따라 조절할 수 있습니다 */
+  /* box-shadow: h-offset v-offset blur spread color; */
 
-/* 그림자 색상과 강도, 위치 등을 필요에 따라 조절할 수 있습니다 */
-/* box-shadow: h-offset v-offset blur spread color; */
+  /* 예시: 그림자를 아래 방향으로만 생성하고 흐릿하게 표현 */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
 
-/* 예시: 그림자를 아래 방향으로만 생성하고 흐릿하게 표현 */
-/* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
+  /* 예시: 그림자를 모든 방향으로 생성하고 진하게 표현 */
+  /* box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.4); */
 
-/* 예시: 그림자를 모든 방향으로 생성하고 진하게 표현 */
-/* box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.4); */
-
-/* 순서
+  /* 순서
 C(댓글 입력) post -> R(읽어오는것) get -> Update -> Delete */
-
 `;
 
 export const ImageBox = styled.div`
@@ -73,24 +68,54 @@ export const ImageBox = styled.div`
   margin-right: 50px;
   box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.4);
   /* background-color: #FF0090; */
-  &:hover{
+  &:hover {
     box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
     transition: all 0.3s ease-in;
     transform: translateY(-5px);
   }
   cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const ImageText = styled.div`
-width: 500px;
-height: 500px;
-box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.4);
-/* background-color: #FF0090; */
-&:hover{
+  width: 500px;
+  height: 500px;
+  box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.4);
+  /* background-color: #FF0090; */
+  &:hover {
     box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
     transform: translateY(-5px);
     transition: all 0.3s ease-in;
   }
-cursor: pointer;
-`;
+  cursor: pointer;
 
+  #title {
+    font-size: 24px;
+    padding: 20px;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10vh;
+    font-weight: bolder;
+    color: black;
+  }
+
+  #context {
+    font-size: 18px;
+    text-align: center;
+    padding: 20px;
+    display: grid;
+    color: black;
+  }
+
+  #price {
+    font-size: 16px;
+    padding: 20px;
+    text-align: center;
+    align-items: center;
+    color: black;
+  }
+`;
