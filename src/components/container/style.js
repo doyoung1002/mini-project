@@ -74,6 +74,11 @@ export const ImageBox = styled.div`
     transform: translateY(-5px);
   }
   cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const ImageText = styled.div`
@@ -87,4 +92,30 @@ export const ImageText = styled.div`
     transition: all 0.3s ease-in;
   }
   cursor: pointer;
+
+  #title {
+    font-size: 24px;
+    padding: 20px;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10vh;
+    font-weight: bolder;
+    color: black;
+  }
+
+  #context {
+    font-size: 18px;
+    text-align: center;
+    padding: 20px;
+    display: grid;
+    color: black;
+  }
+
+  #price {
+    font-size: 16px;
+    padding: 20px;
+    text-align: center;
+    align-items: center;
+    color: black;
+  }
 `;

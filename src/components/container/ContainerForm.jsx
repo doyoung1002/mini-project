@@ -60,7 +60,7 @@ const ContainerForm = () => {
             <ImageText>
               <p id='title'>상품명 : {itemName}</p>
               <p id='context'>상세 설명 : {explanation}</p>
-              <p id='price'>가격: {price}</p>
+              <p id='price'>가격: {price}원</p>
             </ImageText>
           </ImgDiv>
           <CommentForm />
