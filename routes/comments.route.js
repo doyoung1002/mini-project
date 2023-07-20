@@ -55,7 +55,7 @@ router.post("/:itemId/comments", async (req, res) => {
         if (!comment || !nickname || !password || !confirm)
             return res
                 .status(412)
-                .json({ message: "데이터 형식이 올바르지 않습니다" });
+                .json({ errormessage: "데이터 형식이 올바르지 않습니다" });
         //! 비밀번호 확인 불일치
         if (password !== confirm) {
             return res
