@@ -142,12 +142,12 @@ const Headers = () => {
             <div className='logos'>
               <div className='logoImg'>
                 <Link to='/'>
-                  <img src='/img/OHS-5.png' alt='/main' />
+                  <img src='/img/OHI.png' alt='/main' />
                 </Link>
               </div>
             </div>
             <div className='navis'>
-              <h5>오!허니 아이템에 오신 것을 환영합니다</h5>
+              <h5>오!&nbsp;허니 아이템에 오신 것을 환영합니다</h5>
             </div>
             <div className='moNavis'>
               <FontAwesomeIcon icon={faBars} />
