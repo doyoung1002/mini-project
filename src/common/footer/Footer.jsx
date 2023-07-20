@@ -21,11 +21,15 @@ const Footer = styled.div`
       height: 10%;
       padding: 1%;
     }
+    @media ${({ theme }) => theme.device.mobile} {
+      width: 60%;
+      height: 10%;
+      padding: 1%;
+    }
   }
   .footerNavi > a {
     width: 25%;
     color: #ff0090;
-    font-size: 18px;
     font-weight: 500;
     text-align: center;
     font-family: "Roboto";
@@ -34,10 +38,11 @@ const Footer = styled.div`
   }
   .footerNavi > a > li {
     font-size: 16px;
+    @media ${({ theme }) => theme.device.tablet} {
+    font-size: 10px;
   }
-  @media ${({ theme }) => theme.device.tablet} {
-    font-size: 11px;
   }
+  
 `;
 const Footers = () => {
   return (

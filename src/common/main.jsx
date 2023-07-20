@@ -128,7 +128,7 @@ const Mains = styled.div`
   .card > .cardDetail > .productName {
     font-size: 16px;
     @media ${({ theme }) => theme.device.tablet} {
-      font-size: 12px;
+      font-size: 10px;
     }
   }
   .card > .cardDetail > .price {
